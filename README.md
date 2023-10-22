@@ -19,3 +19,10 @@ Detalhado
 
 
 Documentação automatica criada com SWAGGER em "localhost:8000/docs/"
+
+
+- Aula 06 - Adicionando ORM
+
+Instale o ORM ormar na venv
+
+-   pip install ormar[sqlite]
