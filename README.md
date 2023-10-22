@@ -26,3 +26,10 @@ Documentação automatica criada com SWAGGER em "localhost:8000/docs/"
 Instale o ORM ormar na venv
 
 -   pip install ormar[sqlite]
+
+
+- Aula 07 - Adicionando testes
+
+Instale o PYTEST na venv
+
+-   pip install pytest
