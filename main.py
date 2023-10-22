@@ -1,40 +1,35 @@
 from typing import Union
 
-from fastapi import FastAPI, Header, Response, Cookie
+from fastapi import FastAPI
 
 from pydantic import BaseModel
 
 
 class Item(BaseModel):
     id: int
+    quantidade: int
     descricao: str
     valor: float
 
-
 app = FastAPI()
 
-
-@app.get("/")
-def read_root(user_agent: Union[str, None] = Header(None)):
-    return {"user-agent": user_agent}
-
-
-@app.get("/cookie")
-def cookie(response: Response):
-    response.set_cookie(key="meucookie", value="12345")
-    return {"cookie" : True}
-
-
-@app.get("/get-cookie")
-def get_cookie(meucookie: Union[str, None] = Cookie(None)):
-    return {"cookie" : meucookie}
-
-
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
+banco_de_dados = []
 
 
 @app.post("/item")
-def add_item(novo_item: Item, outro_item: Item):
-    return [novo_item, outro_item]
+def add_item(item: Item):
+    banco_de_dados.append(item)
+
+    return item
+
+
+@app.get("/item")
+def list_item():
+    return banco_de_dados
+
+
+@app.get("/item/valor_total")
+def get_valor_total():
+    valor_total = sum([item.valor * item.quantidade for item in banco_de_dados])
+
+    return {"valor_total": valor_total}
