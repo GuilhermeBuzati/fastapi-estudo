@@ -1,6 +1,6 @@
 from typing import Union
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Header, Response, Cookie
 
 from pydantic import BaseModel
 
@@ -15,8 +15,19 @@ app = FastAPI()
 
 
 @app.get("/")
-def read_root():
-    return {"Hello": "World"}
+def read_root(user_agent: Union[str, None] = Header(None)):
+    return {"user-agent": user_agent}
+
+
+@app.get("/cookie")
+def cookie(response: Response):
+    response.set_cookie(key="meucookie", value="12345")
+    return {"cookie" : True}
+
+
+@app.get("/get-cookie")
+def get_cookie(meucookie: Union[str, None] = Cookie(None)):
+    return {"cookie" : meucookie}
 
 
 @app.get("/items/{item_id}")
